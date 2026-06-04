@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="ICON.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="icon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="icon-48.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GradeVision | Predict Your Potential</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<div id="landing" class="landing">
+    <div class="landing-content">
+        <div class="top-text"> · A Project by Ahmad Aizaz · </div>
+        <div class="main-title">SMART<br>GRADE<br>VISION</div>
+        <div class="sub-title">PREDICT YOUR POTENTIAL</div>
+        <div class="click-hint">▼ CLICK ANYWHERE TO START ▼</div>
+    </div>
+</div>
+
+<div id="dashboard" class="dashboard">
+    <div class="glass nav-glass">
+        <div class="nav-logo">GRADE VISION</div>
+        <div class="nav-buttons">
+            <button class="nav-btn active" data-tab="predictor">PREDICTOR</button>
+            <button class="nav-btn" data-tab="transcript">TRANSCRIPT</button>
+        </div>
+        <div class="social-links">
+            <a href="https://www.instagram.com/_ahmadaizaz" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/ahmadaizaz" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/ahmadaizazdev" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="mailto:aizaz.aiou.edu@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+    </div>
+
+    <div class="tab-container">
+        <!-- PREDICTOR PANEL -->
+        <div id="predictorPanel" class="tab-panel active">
+            <div class="predictor-header">
+                <h2>GRADE VISION</h2>
+                <p> · PREDICT YOUR POTENTIAL · </p>
+            </div>
+            <div class="glass section-card">
+                <div class="section-header">
+                    <div class="section-title">COURSE FORECASTER</div>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button id="showNeededToggle" class="btn-glass">SHOW 4.0 NEEDED: OFF</button>
+                        <button id="addCourseBtn" class="btn-glass">+ ADD COURSE</button>
+                    </div>
+                </div>
+                <canvas id="progressGraph" height="140"></canvas>
+                <div style="overflow-x: auto; margin-top: 24px;">
+                    <table class="grade-table">
+                        <thead>
+                            <tr>
+                                <th>COURSE NAME</th>
+                                <th>ASSIGNMENT 1</th>
+                                <th>ASSIGNMENT 2</th>
+                                <th>MIDTERM</th>
+                                <th id="projectTh" style="display:none;">PROJECT</th>
+                                <th>FINALS</th>
+                                <th id="neededTh" style="display:none;">NEEDED</th>
+                                <th>GPA/GRADE</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="predictorTable"></tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-4">
+                    <button id="calculateBtn" class="btn-glass btn-primary-glass" style="padding: 12px 40px;">CALCULATE ALL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRANSCRIPT PANEL -->
+        <div id="transcriptPanel" class="tab-panel">
+            <div class="glass section-card">
+                <div class="section-header">
+                    <div class="section-title">TRANSCRIPT VAULT</div>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button id="addTranscriptCourseBtn" class="btn-glass">+ ADD COURSE</button>
+                        <button id="uploadExcelBtn" class="btn-glass">UPLOAD EXCEL</button>
+                        <button id="resetTranscriptBtn" class="btn-glass">RESET</button>
+                        <input type="file" id="excelFile" accept=".xlsx,.xls" style="display:none;">
+                    </div>
+                </div>
+                
+                <div class="overall-cgpa-card">
+                    <div class="overall-cgpa-grid">
+                        <div class="cgpa-left">
+                            <div class="label">CGPA</div>
+                            <div class="value" id="overallCgpa">0.00</div>
+                        </div>
+                        <div class="middle-stats">
+                            <div class="credits-value" id="totalCreditsDisplay">0</div>
+                            <div class="credits-label">TOTAL CREDITS</div>
+                            <div class="divider"></div>
+                            <div class="credits-value" id="totalQualityDisplay">0.00</div>
+                            <div class="credits-label">QUALITY POINTS</div>
+                        </div>
+                        <div class="grade-right">
+                            <div class="label">GRADE</div>
+                            <div class="value" id="overallGrade">F</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PDF to Excel Helper Section (Link Only - No Upload) -->
+                <div class="pdf-helper">
+                    <p><i class="fas fa-file-pdf"></i> Don't have an Excel file? Download your transcript from AIOU CMS as PDF, then</p>
+                    <p><strong><a href="https://www.ilovepdf.com/pdf_to_excel" target="_blank">→ Convert your PDF to Excel here ←</a></strong></p>
+                    <p style="font-size:0.7rem; margin-top:8px;">Upload the converted Excel file above</p>
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table class="grade-table">
+                        <thead>
+                            <tr>
+                                <th>CODE</th>
+                                <th style="min-width: 250px;">COURSE NAME</th>
+                                <th>CREDITS</th>
+                                <th>MARKS %</th>
+                                <th>GRADE</th>
+                                <th>GPA</th>
+                                <th>QUALITY PTS</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="transcriptTable"></tbody>
+                    </table>
+                </div>
+                <canvas id="transcriptGraph" height="140" style="margin-top: 24px;"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        EST - 2026 &nbsp;&nbsp;|&nbsp;&nbsp; PERSONAL PROJECT &nbsp;&nbsp;|&nbsp;&nbsp; BY AHMAD AIZAZ &nbsp;&nbsp;|&nbsp;&nbsp; DEPARTMENT OF COMPUTER SCIENCE &nbsp;&nbsp;|&nbsp;&nbsp; ALLAMA IQBAL OPEN UNIVERSITY &nbsp;&nbsp;|&nbsp;&nbsp; 
+        <a href="mailto:aizaz.aiou.edu@gmail.com" style="color: rgba(255,255,255,0.3); text-decoration: none;">CONTACT</a>
+    </footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
