@@ -73,7 +73,7 @@ function renderPredictor() {
     let hasAnyProject = predictorCourses.some(c => c.hasProject);
     document.getElementById('projectTh').style.display = hasAnyProject ? 'table-cell' : 'none';
     document.getElementById('neededTh').style.display = showNeededMode ? 'table-cell' : 'none';
-    document.getElementById('showNeededToggle').innerText = `SHOW 4.0 NEEDED: ${showNeededMode ? 'ON' : 'OFF'}`;
+    document.getElementById('showNeededToggle').innerText = `SHOW MARKS NEEDED FOR 4 GPA: ${showNeededMode ? 'ON' : 'OFF'}`;
 
     predictorCourses.forEach((course, idx) => {
         let finalValue = course.finalMarks !== undefined && course.finalMarks !== '' ? course.finalMarks : '';
